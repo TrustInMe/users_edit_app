@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+  database:
+    image: postgres
+    container_name: pg_db
+    environment:
+      - POSTGRES_DB=default_database
+      - POSTGRES_USER=default_user
+      - POSTGRES_PASSWORD=default_password!
+
+
+  web:
+    build: ./users_edit_app
+    container_name: users_edit_app
+    command:
+      - /bin/bash
+      - -c
+      - |
+        cd users_edit_app
+        flask db upgrade
+        cd ..
+        python3 run.py
+    ports:
+      - "5000:5000"
+    depends_on:
+      - database
+    volumes:
+      - ./users_edit_app:/users_edit_app

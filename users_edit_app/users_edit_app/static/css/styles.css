@@ -1,0 +1,12 @@
+ul li{
+    display: inline;
+}  
+
+li {
+    padding-left: 20px;
+}
+.container {
+    margin: 0 auto;
+    width: 800px;
+}
+

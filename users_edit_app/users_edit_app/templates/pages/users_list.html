@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h1>Users:</h1>
+    <h3>Current permissions: {{current_user.permissions}}</h3>
+
+    <p><a href="/logout"><input type="button" value="logout" id='logout'></a></p>
+    
+    {% if add_permission in current_user.permissions %}
+        <a href="/users/add_user"><input type="button" value="add user" id='add_user'></a>
+    {% endif %}
+
+    <div>
+        <ul>
+            <li>ID</li>
+            <li>Username</li>
+            <li>first name</li>
+            <li>last name</li>
+            <li>permissions</li>
+        </ul>
+    </div>
+    {% for user in users %}
+        <div>
+            <ul>
+                <li>{{ user.id }}</li>
+                <li>{{ user.username }}</li>
+                <li>{% if user.first_name %}{{ user.first_name }}{% endif %}</li>
+                <li>{% if user.last_name %}{{ user.last_name }}{% endif %}</li>
+                <li>{% if user.permissions %}{{ user.permissions }}{% endif %}</li>
+                {% if edit_permission in current_user.permissions %}
+                    <a href="/users/{{ user.id }}"><input type="button" value="edit user"></a>
+                {% endif %}
+                {% if delete_permission in current_user.permissions %}
+                    <input type="button" value="delete user" class='delete_user'>
+                {% endif %}
+            </ul>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}
