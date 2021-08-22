@@ -88,10 +88,10 @@ def edit_user(id):
     if request.method == "POST":
         if request.form['username'] and request.form.getlist('permissions'):
             if user.username == request.form['username']:
-                user.change_user_data(request.form)
+                return user.change_user_data(request.form)
             else: 
                 if not bool(User.query.filter_by(username=request.form['username']).first()):
-                    user.change_user_data(request.form)
+                    return user.change_user_data(request.form)
                 else:
                     error_msg = "Username already taken"
         else:

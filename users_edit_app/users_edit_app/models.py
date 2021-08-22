@@ -1,4 +1,5 @@
 from flask_login import UserMixin
+from flask import redirect, url_for
 
 from users_edit_app import db, login_manager
 
@@ -9,6 +10,10 @@ permissions = db.Table(
 )
 
 class Permission(db.Model):
+    """
+    Модель доступов.
+    """
+
     __tablename__ = "permission"
     
     id = db.Column(db.Integer, primary_key=True)
@@ -21,6 +26,12 @@ class Permission(db.Model):
         return self.title
 
 class User(db.Model, UserMixin):
+    """
+    Модель пользователей.
+
+    Имеет связь many-to-many с доступами.
+    """
+
     __tablename__ = "user"
 
     id = db.Column(db.Integer, primary_key=True)
@@ -44,6 +55,10 @@ class User(db.Model, UserMixin):
 
 
     def change_user_data(self, form_data):
+        """
+        Метод, предназначенный для изменения данных
+        уже существующего пользователя.
+        """
         self.username = form_data['username']
         self.first_name = form_data['first_name']
         self.last_name = form_data['last_name']
@@ -54,6 +69,8 @@ class User(db.Model, UserMixin):
 
         db.session.add(self)
         db.session.commit()
+
+        return redirect(url_for('users_list_page'))
 
 @login_manager.user_loader
 def load_user(user_id):
