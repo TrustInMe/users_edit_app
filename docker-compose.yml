@@ -27,3 +27,13 @@ services:
       - database
     volumes:
       - ./users_edit_app:/users_edit_app
+
+
+  async_json:
+    build: ./async_json
+    container_name: async_json
+    command: python3 run.py
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./async_json:/async_json
